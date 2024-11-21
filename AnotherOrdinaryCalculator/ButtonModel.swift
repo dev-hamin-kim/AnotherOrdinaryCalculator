@@ -50,7 +50,6 @@ class Button: UIButton {
         setTitle(self.title, for: .normal)
         titleLabel?.font = .boldSystemFont(ofSize: 30)
         backgroundColor = color
-        frame.size = CGSize(width: 80, height: 80)
         
         let action = #selector(onTap)
         addTarget(self, action: action, for: .touchDown)

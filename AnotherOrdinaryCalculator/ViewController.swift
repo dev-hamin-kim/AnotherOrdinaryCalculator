@@ -12,10 +12,10 @@ class ViewController: UIViewController {
     
     let label = UILabel()
     let buttonLayout = [
-        "7", "8", "9", "+"
-//        "4", "5", "6", "-",
-//        "1", "2", "3", "*",
-//        "AC", "0", "=", "/",
+        ["7", "8", "9", "+"],
+        ["4", "5", "6", "-"],
+        ["1", "2", "3", "*"],
+        ["AC", "0", "=", "/"]
     ]
 
     override func viewDidLoad() {
@@ -24,13 +24,13 @@ class ViewController: UIViewController {
     }
 
     private func configureUI() {
-        let buttonStacks = makeHorizontalButtonStack(with: buttonLayout)
+        let buttonStacks = makeButtonStack(with: buttonLayout)
         
         numberLabel()
         view.addSubview(buttonStacks)
         
         buttonStacks.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(50)
+            $0.top.equalTo(label.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
         }
 
@@ -64,6 +64,8 @@ class ViewController: UIViewController {
                 $0.width.height.equalTo(80)
             }
             
+            button.layer.cornerRadius = 40
+            
             buttonStack.addArrangedSubview(button)
         }
         
@@ -74,9 +76,24 @@ class ViewController: UIViewController {
         
         return buttonStack
     }
+    
+    private func makeButtonStack(with buttonLayout: [[String]]) -> UIStackView {
+        let verticalStack = UIStackView()
+        
+        buttonLayout.forEach {
+            let horizontalStack = makeHorizontalButtonStack(with: $0)
+            
+            verticalStack.addArrangedSubview(horizontalStack)
+        }
+        
+        verticalStack.axis = .vertical
+        verticalStack.backgroundColor = .black
+        verticalStack.spacing = 10
+        verticalStack.distribution = .fillEqually
+        
+        return verticalStack
+    }
 
 }
 
-#Preview {
-    ViewController()
-}
+#Preview { ViewController() }
